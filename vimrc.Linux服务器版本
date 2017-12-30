@@ -1,0 +1,121 @@
+" File: .vimrc
+" Author: AntonyBonn
+" Last Modified: 09 05, 2017
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                               General Setting                               "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" This line should not be removed as it ensures that various options are
+" properly set to work with the Vim-related packages available in Debian.
+runtime! debian.vim
+
+if filereadable("/etc/vim/vimrc.local") "载入全局设定
+  source /etc/vim/vimrc.local
+endif
+set nocompatible "设置不完全兼容vi
+source $VIMRUNTIME/vimrc_example.vim
+set nu! "显示行号
+set encoding=utf-8 "编码设定
+set langmenu=zh_CN.UTF-8
+source $VIMRUNTIME/delmenu.vim
+source $VIMRUNTIME/menu.vim
+if has("syntax") "语法高亮 (Vim5之后的版本支持高亮)
+  syntax on
+endif
+colorscheme desert "设置主题色
+"colorscheme solarized
+"colorscheme molokai
+"colorscheme phd
+set history=500 "设置命令历史行数 
+filetype on                      " 侦测文件类型  
+filetype indent on               " 针对不同的文件类型采用不同的缩进格式  
+filetype plugin on               " 针对不同的文件类型加载对应的插件  
+filetype plugin indent on "启用自动补全
+set autowrite " 在像:next和:make等命令前自动保存
+set showcmd         " 未完成的指令也显示
+set scrolloff=3     " 在上下移动光标时，光标的上方或下方至少会保留显示的行数
+set showmatch		" 在输入成对的括号时，Vim 会帮助你跳转并高亮一下匹配的括号,然后回到你正在输入的位置
+set matchtime=1     "showmatch匹配时间最多100ms
+set hlsearch        "高亮显示所有匹配项
+" 设置快捷键将选中文本块复制至系统剪贴板
+vnoremap <leader>y "+y
+" 设置快捷键将系统剪贴板内容粘贴至 vim
+nmap <leader>p "+p
+" 定义快捷键关闭当前分割窗口
+nmap <leader>q :q<CR>
+" 定义快捷键保存当前窗口内容
+nmap <leader>w :w<CR>
+" 让配置变更立即生效
+autocmd BufWritePost $MYVIMRC source $MYVIMRC
+set autochdir
+
+""""""""
+" 缩进 "
+""""""""
+"设置Tab代表的字符数
+set tabstop=4
+"设置自动缩进字符数
+set shiftwidth=4
+"设置自动缩进
+set autoindent
+"让 vim 把连续数量的空格视为一个制表符
+set softtabstop=4
+""""""""""""""""""""""""""""
+"  状态行（命令行）的显示  "
+""""""""""""""""""""""""""""
+set cmdheight=1          " 命令行（在状态行下）的高度，默认为1 
+set ruler                " 右下角显示光标位置的状态行  
+set laststatus=2         " 开启状态栏信息   
+set wildmenu             " 增强模式中的命令行自动完成操作  
+""""""""""
+"  查找  "
+""""""""""
+set hlsearch                 " 开启高亮显示结果  
+set incsearch                " 开启实时搜索功能  
+set smartcase		         " smart matching(当模式中有大写字母时对大小写敏感)
+""""""""""""""""""""""""
+"       自动匹配       "
+""""""""""""""""""""""""
+if &filetype == 'c' || &filetype == 'cpp'
+	:inoremap < <><ESC>i
+"   :inoremap > <c-r>=ClosePair('>')<CR>  
+    :inoremap ` ``<ESC>i 
+endif
+"function ClosePair(char)  
+"    if getline('.')[col('.')-1] == a:char  
+"        return "\<Right>"
+"    else  
+"        return a:char
+"    endif  
+"endf
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                            General Map Settings                             "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" 定义快捷键的前缀，即<leader>
+" let mapleader="\"
+"""""""""
+"  Map  "
+"""""""""
+"Ctrl+a小写转大写
+inoremap <C-u> <esc>gUiwea
+"<F11>新建tab
+map <F11> :tabnew <CR>
+"<F12>关闭标签
+map <F12> :close <CR>
+"Ctrl+s保存
+map <C-s> :w <CR>
+"Ctrl+a全选
+map <C-a> ggv <S-g>
+"分屏移动
+map <c-j> <c-w>j
+map <c-k> <c-w>k
+map <c-l> <c-w>l
+map <c-h> <c-w>h
+"上下左右
+inoremap <A-j> <Down>
+inoremap <A-k> <Up>
+inoremap <A-l> <Right>
+inoremap <A-h> <Left>
+"退出:ESC!
+inoremap jk <Esc>
