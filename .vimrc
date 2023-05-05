@@ -1,6 +1,8 @@
 " File: .vimrc
 " Author: AntonyBonn
-" Last Modified: 九月 04, 2016
+" Last Modified: 
+"   Sep 04 2016
+"   Apr 30 2023
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                               General Setting                               "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -11,6 +13,8 @@ runtime! debian.vim
 if filereadable("/etc/vim/vimrc.local") "载入全局设定
   source /etc/vim/vimrc.local
 endif
+set nobackup "编辑时禁止备份文件
+set nowritebackup "保存时禁止备份文件
 set nocompatible "设置不完全兼容vi
 source $VIMRUNTIME/vimrc_example.vim
 set nu! "显示行号
@@ -41,7 +45,7 @@ filetype indent on               " 针对不同的文件类型采用不同的缩
 filetype plugin on               " 针对不同的文件类型加载对应的插件  
 filetype plugin indent on "启用自动补全
 set mouse=a " 使能鼠标
-set autowrite " 在像:next和:make等命令前自动保存
+set noautowrite " 在像:next和:make等命令前自动保存
 if has("autocmd") " 重新打开文件时跳转到last position
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
@@ -147,7 +151,7 @@ if has("win32") || has("win64")
       silent execute '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3 . eq
     endfunction
 else
-	let $VIMRUNTIME = "/usr/share/vim/vim74"
+	let $VIMRUNTIME = "/usr/share/vim/vim90"
 endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -155,7 +159,7 @@ endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " 定义快捷键的前缀，即<leader>
-let mapleader="\"
+" let mapleader="\"
 """""""""
 "  Map  "
 """""""""
@@ -344,21 +348,21 @@ Plugin 'vim-scripts/Gundo'
 "Ctrl+P搜索任何文件
 Plugin 'kien/ctrlp.vim'
 "LookupFile插件
-Plugin 'vim-scripts/lookupfile'
-Plugin 'vim-scripts/genutils' " Lookupfile所必须的插件
+" Plugin 'vim-scripts/lookupfile'
+" Plugin 'vim-scripts/genutils' " Lookupfile所必须的插件
 "列出当前文件中的所有宏, 全局变量, 函数名等
 Plugin 'vim-scripts/taglist.vim'
 "比taglist更适合c++使用，函数能够按类区分，支持按类折叠显示等
-Plugin 'majutsushi/tagbar'
+"Plugin 'majutsushi/tagbar'
 "Grep for VIM
 Plugin 'EasyGrep'
 """"""""""
 "  补全  "
 """"""""""
 "YouCompleteMe
-Bundle 'Valloric/YouCompleteMe'
+"Bundle 'Valloric/YouCompleteMe'
 "使YouCompleteMe支持Javascript补全
-Plugin 'ternjs/tern_for_vim'
+"Plugin 'ternjs/tern_for_vim'
 "括号和引号自动补全
 Plugin 'jiangmiao/auto-pairs'
 """"""""""""""
@@ -373,7 +377,7 @@ Plugin 'suan/vim-instant-markdown'
 "  代码  "
 """"""""""
 "自动补全代码块插件
-Plugin 'sirver/UltiSnips'
+"Plugin 'sirver/UltiSnips'
 "预设代码集合补全
 Plugin 'honza/vim-snippets'
 "文档
@@ -460,13 +464,15 @@ Plugin 'altercation/vim-colors-solarized'
 Plugin 'tomasr/molokai'
 "复古 phd（http://www.vim.org/scripts/script.php?script_id=3139 ）
 Plugin 'vim-scripts/phd'
+"https://github.com/morhetz/gruvbox/
+Plugin 'morhetz/gruvbox'
 "C++语法高亮
 Plugin 'octol/vim-cpp-enhanced-highlight'
 "接口与实现快速切换
 Plugin 'derekwyatt/vim-fswitch'
 "书签可视化(按mm收藏代码行)
 Plugin 'kshenoy/vim-signature'
-Plugin 'vim-scripts/BOOKMARKS—Mark-and-Highlight-Full-Lines'
+" Plugin 'vim-scripts/BOOKMARKS—Mark-and-Highlight-Full-Lines'
 Plugin 'vim-scripts/indexer.tar.gz'
 Plugin 'vim-scripts/DfrankUtil'
 Plugin 'vim-scripts/vimprj'
@@ -477,7 +483,7 @@ Plugin 'derekwyatt/vim-protodef'
 Plugin 'fholgado/minibufexpl.vim'
 Plugin 'gcmt/wildfire.vim'
 Plugin 'Lokaltog/vim-easymotion'
-Plugin 'lilydjwg/fcitx.vim'
+"Plugin 'lilydjwg/fcitx.vim'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 你的所有插件需要在下面这行之前
@@ -497,45 +503,45 @@ filetype plugin indent on    " 必须 加载vim自带和插件相应的语法和
 "                            YouCompleteMe 自动补全配置                       "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-let g:ycm_global_ycm_extra_conf='~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
+"let g:ycm_global_ycm_extra_conf='~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "让Vim的补全菜单行为与一般IDE一致(参考VimTip1228)
-set completeopt=longest,menu	
+"set completeopt=longest,menu	
 "离开插入模式后自动关闭预览窗口
-autocmd InsertLeave * if pumvisible() == 0|pclose|endif	
+"autocmd InsertLeave * if pumvisible() == 0|pclose|endif	
 "回车即选中当前项
-inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"
+"inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"
 "上下左右键的行为 会显示其他信息
-inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
-inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
-inoremap <expr> <PageDown> pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<PageDown>"
-inoremap <expr> <PageUp>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<PageUp>"
+"inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
+"inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
+"inoremap <expr> <PageDown> pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<PageDown>"
+"inoremap <expr> <PageUp>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<PageUp>"
 "youcompleteme  默认tab  s-tab 和自动补全冲突
 "let g:ycm_key_list_select_completion=['<c-n>']
-let g:ycm_key_list_select_completion = ['<Down>']
+"let g:ycm_key_list_select_completion = ['<Down>']
 "let g:ycm_key_list_previous_completion=['<c-p>']
-let g:ycm_key_list_previous_completion = ['<Up>']
-let g:ycm_confirm_extra_conf=0 "关闭加载.ycm_extra_conf.py提示
-let g:ycm_collect_identifiers_from_tags_files=1	" 开启 YCM 基于标签引擎
-let g:ycm_min_num_of_chars_for_completion=1 " 从第1个键入字符就开始罗列匹配项
-let g:ycm_cache_omnifunc=0	" 禁止缓存匹配项,每次都重新生成匹配项
-let g:ycm_seed_identifiers_with_syntax=1	" 语法关键字补全
+"let g:ycm_key_list_previous_completion = ['<Up>']
+"let g:ycm_confirm_extra_conf=0 "关闭加载.ycm_extra_conf.py提示
+"let g:ycm_collect_identifiers_from_tags_files=1	" 开启 YCM 基于标签引擎
+"let g:ycm_min_num_of_chars_for_completion=1 " 从第1个键入字符就开始罗列匹配项
+"let g:ycm_cache_omnifunc=0	" 禁止缓存匹配项,每次都重新生成匹配项
+"let g:ycm_seed_identifiers_with_syntax=1	" 语法关键字补全
 "force recomile with syntastic
-nnoremap yfcd :YcmForceCompileAndDiagnostics<CR>
+"nnoremap yfcd :YcmForceCompileAndDiagnostics<CR>
 "nnoremap <leader>lo :lopen<CR>	"open locationlist
 "nnoremap <leader>lc :lclose<CR>	"close locationlist
-inoremap <leader><leader> <C-x><C-o>
+"inoremap <leader><leader> <C-x><C-o>
 "在注释输入中也能补全
-let g:ycm_complete_in_comments = 1
+"let g:ycm_complete_in_comments = 1
 "在字符串输入中也能补全
-let g:ycm_complete_in_strings = 1
+"let g:ycm_complete_in_strings = 1
 "注释和字符串中的文字也会被收入补全
-let g:ycm_collect_identifiers_from_comments_and_strings = 0
+"let g:ycm_collect_identifiers_from_comments_and_strings = 0
 "跳转到定义处
-nnoremap <leader>gd :YcmCompleter GoToDefinitionElseDeclaration<CR>
+"nnoremap <leader>gd :YcmCompleter GoToDefinitionElseDeclaration<CR>
 "设置error和warning的提示符
-let g:ycm_error_symbol = '>>'
-let g:ycm_warning_symbol = '>*'
+"let g:ycm_error_symbol = '>>'
+"let g:ycm_warning_symbol = '>*'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                 syntastic配置                               "
@@ -598,7 +604,7 @@ let NERDTreeShowHidden=0
 " 设置宽度
 let NERDTreeWinSize=30
 " 在终端启动vim时，共享NERDTree
-let g:nerdtree_tabs_open_on_console_startup=1
+let g:nerdtree_tabs_open_on_console_startup=0
 " 忽略一下文件的显示
 let NERDTreeIgnore=['\.pyc','\~$','\.swp']
 " 显示书签列表
@@ -631,13 +637,13 @@ let Tlist_Use_Left_Windo =1        		"在左侧窗口中显示taglist窗口
 "                                  tagbar配置                                 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-nmap <Leader>tb :TagbarToggle<CR>		"快捷键设置
-let g:tagbar_ctags_bin='ctags'			"ctags程序的路径
-let g:tagbar_width=24				"窗口宽度的设置
+"nmap <Leader>tb :TagbarToggle<CR>		"快捷键设置
+"let g:tagbar_ctags_bin='ctags'			"ctags程序的路径
+"let g:tagbar_width=24				"窗口宽度的设置
 "设置tagbar的窗口显示的位置,为左边 
-let g:tagbar_left=1
-map <F3> :Tagbar<CR>
-autocmd BufReadPost *.cpp,*.c,*.h,*.hpp,*.cc,*.cxx,*.* call tagbar#autoopen() 	"如果是c语言的程序的话，tagbar自动开启
+"let g:tagbar_left=1
+"map <F3> :Tagbar<CR>
+"autocmd BufReadPost *.cpp,*.c,*.h,*.hpp,*.cc,*.cxx,*.* call tagbar#autoopen() 	"如果是c语言的程序的话，tagbar自动开启
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                 NERDTree配置                                "
@@ -711,16 +717,16 @@ nmap <silent> <Leader>sw :FSHere<cr>
 
 "Vim doesn't realize that you are in a virtualenv so it wont give you code completion for libraries only installed there. Add the following script to your ~/.vimrc to fix it:
 " Add the virtualenv's site-packages to vim path
-py << EOF
-import os.path
-import sys
-import vim
-if 'VIRTUAL_ENV' in os.environ:
-    project_base_dir = os.environ['VIRTUAL_ENV']
-    sys.path.insert(0, project_base_dir)
-    activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
-    execfile(activate_this, dict(__file__=activate_this))
-EOF
+" py << EOF
+" import os.path
+" import sys
+" import vim
+" if 'VIRTUAL_ENV' in os.environ:
+"     project_base_dir = os.environ['VIRTUAL_ENV']
+"     sys.path.insert(0, project_base_dir)
+"     activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
+"     execfile(activate_this, dict(__file__=activate_this))
+" EOF
 
 "支持PEP8风格的缩进
 "au BufNewFile,BufRead *.py
@@ -736,4 +742,5 @@ let python_highlight_all=1
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                    shell                                    "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 
